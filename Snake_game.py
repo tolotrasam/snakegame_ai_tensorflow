@@ -7,11 +7,13 @@ import math
 
 
 # ---------- constants ---------- #
-
+# size of each grid
 TILE_SIZE = (10, 10)
-TILE_RECT = pygame.Rect(0, 0, TILE_SIZE[0], TILE_SIZE[1])
+
 # number of grid of the screen
-SCREENTILES = (50, 50)
+SCREENTILES = (30, 30)
+
+TILE_RECT = pygame.Rect(0, 0, TILE_SIZE[0], TILE_SIZE[1])
 SCREENSIZE = ((SCREENTILES[0]+1)*TILE_SIZE[0], (SCREENTILES[1]+1)*TILE_SIZE[1])
 SCREENRECT = pygame.Rect(0, 0, SCREENSIZE[0], SCREENSIZE[1])
 
@@ -356,14 +358,15 @@ class Game():
 
         # game over
         if self.lose == True:
+            f = pygame.font.Font(None, 100)
+            failmessage = f.render('FAIL', True, (0, 0, 0))
+            failrect = failmessage.get_rect()
+            failrect.center = SCREENRECT.center
+            self.screen.blit(failmessage, failrect)
+            pygame.display.flip()
+            pygame.time.wait(2000)
             pass
-            # f = pygame.font.Font(None, 100)
-            # failmessage = f.render('FAIL', True, (0, 0, 0))
-            # failrect = failmessage.get_rect()
-            # failrect.center = SCREENRECT.center
-            # self.screen.blit(failmessage, failrect)
-            # pygame.display.flip()
-            # pygame.time.wait(2000)
+
 
         # 4 is wall or block
         for i in range(0, len(self.BlockPositions)):
@@ -371,7 +374,8 @@ class Game():
             position = self.BlockPositions[i]
             self.grid[position[1] + 1, position[0] + 1] = 4
 
-        return self.getObservation(), self.reward, self.lose, self.currentscore
+        # return self.getObservation(), self.reward, self.lose, self.currentscore
+        return self.lose
 
     def render(self):
         # score
