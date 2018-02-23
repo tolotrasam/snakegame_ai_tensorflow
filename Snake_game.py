@@ -8,10 +8,10 @@ import math
 
 # ---------- constants ---------- #
 
-TILE_SIZE = (30, 30)
+TILE_SIZE = (10, 10)
 TILE_RECT = pygame.Rect(0, 0, TILE_SIZE[0], TILE_SIZE[1])
 # number of grid of the screen
-SCREENTILES = (10, 10)
+SCREENTILES = (50, 50)
 SCREENSIZE = ((SCREENTILES[0]+1)*TILE_SIZE[0], (SCREENTILES[1]+1)*TILE_SIZE[1])
 SCREENRECT = pygame.Rect(0, 0, SCREENSIZE[0], SCREENSIZE[1])
 
@@ -26,7 +26,7 @@ SNAKE_SEGMENT_RADIUS = 17
 FOOD_RADIUS = SNAKE_SEGMENT_RADIUS
 
 CAPTION = 'MiniSnake'
-FPS = 20
+FPS = 15
 
 MOVE_RATE = 1  # how many frame per move
 DIFFICULTY_INCREASE_RATE = .09
@@ -243,32 +243,25 @@ class Game():
 
     def step(self, direction):
 
-        currentmovedir = self.snake.movedir
-        if direction == 2:
-            tomove = currentmovedir
-        else:
-            if currentmovedir == 'up':
-                if direction:
-                    tomove = 'right'
-                else:
-                    tomove = 'left'
-            elif currentmovedir == 'right':
-                if direction:
-                    tomove = 'down'
-                else:
-                    tomove = 'up'
-            elif currentmovedir == 'down':
-                if direction:
-                    tomove = 'left'
-                else:
-                    tomove = 'right'
-            elif currentmovedir == 'left':
-                if direction:
-                    tomove = 'up'
-                else:
-                    tomove = 'down'
 
-        self.snake.movedir = tomove
+        currentmovedir = self.snake.movedir
+        if direction == 0:
+            tomove = 'up'
+            dontmove = 'down'
+        elif direction == 1:
+            tomove = 'down'
+            dontmove = 'up'
+        elif direction == 2:
+            tomove = 'left'
+            dontmove = 'right'
+        elif direction == 3:
+            tomove = 'right'
+            dontmove = 'left'
+        else:
+            tomove = currentmovedir
+            dontmove = 'left'
+        if not currentmovedir == dontmove:
+            self.snake.movedir = tomove
 
         # clearing
         self.all.clear(self.screen, self.bg)
