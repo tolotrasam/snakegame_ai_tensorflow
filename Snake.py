@@ -203,14 +203,15 @@ class block(pygame.sprite.Sprite):
 class Game():
     def __init__(self):
         pygame.init()
+
+
+    def reset(self):
         # show screen
         self.screen = pygame.display.set_mode(SCREENSIZE)
         pygame.display.set_caption(CAPTION)
         self.bg = pygame.Surface(SCREENSIZE).convert()
         self.bg.fill(BACKGROUND_COLOR)
         self.screen.blit(self.bg, (0, 0))
-
-    def reset(self):
 
         self.snakegroup = pygame.sprite.Group()
         self.snakeheadgroup = pygame.sprite.Group()
@@ -270,8 +271,6 @@ class Game():
         # updates snake position
         self.all.update()
 
-        # getting on reward per frame
-        self.reward = 1
         if self.currentfood == 'no food':
             self.currentfood = food(self.takenupgroup)
             self.foodgroup.add(self.currentfood)
@@ -337,7 +336,6 @@ class Game():
                 self.currentfood = 'no food'
                 self.snake.add_segment()
                 self.currentscore += 1
-                self.reward = 100
                 global MOVE_RATE, DIFFICULTY_INCREASE_RATE
                 MOVE_RATE += DIFFICULTY_INCREASE_RATE
                 self.block_frame += 1
@@ -392,4 +390,3 @@ class Game():
 
         # waiting
         self.clock.tick(FPS)
-
